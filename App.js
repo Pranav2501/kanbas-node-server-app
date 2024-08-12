@@ -36,9 +36,7 @@ if (process.env.NODE_ENV !== "development") {
         domain: process.env.NODE_SERVER_DOMAIN,
     };
 }
-if (process.env.NODE_ENV !== "development") {
-    app.set('trust proxy', 1); // Trust first proxy
-}
+
 
 app.use(session(sessionOptions));
 
