@@ -3,9 +3,18 @@ import * as dao from "./dao.js";
 export default function CourseRoutes(app) {
 
     app.post("/api/courses", async (req, res) => {
+        const currentUser = req.session["currentUser"];
+
+        if (currentUser && currentUser.role !== "FACULTY") {
+            res.json({'message': "You are not authorized to create a course"});
+            return;
+        }
+
         const course = {
-            ...req.body
+            ...req.body,
+            author: currentUser._id
         };
+
         const status = await dao.createCourse(course);
         res.json(status);
     });
@@ -24,7 +33,15 @@ export default function CourseRoutes(app) {
     });
 
     app.get("/api/courses", async (req, res) => {
+        const currentUser = req.session.currentUser;
+
+        if (currentUser && currentUser.role === "FACULTY") {
+            const courses = await dao.findCoursesByAuthor(currentUser._id);
+            res.json(courses);
+            return;
+        }
         const courses = await dao.findAllCourses();
         res.json(courses);
+
     });
 }

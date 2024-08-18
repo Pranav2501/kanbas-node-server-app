@@ -9,6 +9,10 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import UserRoutes from "./Users/routes.js";
 import cors from "cors";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
+import EnrollCourseRoutes from "./Kanbas/EnrollCourses/routes.js";
+import QuizzesRoutes from "./Kanbas/Quizzes/routes.js";
+import QuestionsRoutes from "./Kanbas/Questions/routes.js";
+import AnswersRoutes from "./Kanbas/Answers/routes.js";
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
@@ -37,17 +41,20 @@ if (process.env.NODE_ENV !== "development") {
     };
 }
 
-
 app.use(session(sessionOptions));
 
 
 app.use(express.json());
 UserRoutes(app);
+
+Lab5(app);
+Hello(app);
 CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
-Lab5(app);
-Hello(app);
-
+EnrollCourseRoutes(app);
+QuestionsRoutes(app);
+QuizzesRoutes(app);
+AnswersRoutes(app);
 
 app.listen(process.env.PORT || 4000)

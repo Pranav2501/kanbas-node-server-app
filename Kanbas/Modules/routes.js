@@ -3,6 +3,8 @@ import * as dao from "./dao.js"
 export default function ModuleRoutes(app) {
 
     app.post("/api/courses/:cid/modules", async (req, res) => {
+        const currentUser = req.session["currentUser"];
+        console.log(currentUser);
         const {cid} = req.params;
         const newModule = {
             ...req.body,
